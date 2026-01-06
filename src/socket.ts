@@ -2,7 +2,11 @@ import { Server as HttpServer } from 'http'
 import { Server as SocketServer } from 'socket.io'
 
 export function createWebSocket(httpServer: HttpServer) {
-  const _sockets: { socket: string; id: string | number | null }[] = []
+  const _sockets: {
+    socket: string
+    id: string | number | null
+    session: string | null
+  }[] = []
   const io = new SocketServer(httpServer, {
     cors: {
       origin: '*'
@@ -16,7 +20,8 @@ export function createWebSocket(httpServer: HttpServer) {
       if (s < 0) {
         _sockets.push({
           socket: socket.id,
-          id: data.id
+          id: data.id,
+          session: data.session ?? null
         })
         io.emit('connected', {
           id: data.id
@@ -25,7 +30,8 @@ export function createWebSocket(httpServer: HttpServer) {
         _sockets.splice(s, 1)
         _sockets.push({
           socket: socket.id,
-          id: data.id
+          id: data.id,
+          session: data.session ?? null
         })
       }
       io.emit('users', _sockets)
