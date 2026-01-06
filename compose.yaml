@@ -1,0 +1,7 @@
+services:
+  server:
+    container_name: 'websocket-server'
+    build:
+      target: production
+    ports:
+      - 8081:8081
