@@ -26,9 +26,8 @@ export function createWebSocket(httpServer: HttpServer) {
         io.emit('connected', {
           id: data.id
         })
-      } else if (_sockets[s].socket !== socket.id) {
-        _sockets.splice(s, 1)
-        _sockets.push({
+      } else {
+        _sockets.splice(s, 1, {
           socket: socket.id,
           id: data.id,
           session: data.session ?? null
